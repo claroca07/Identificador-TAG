@@ -10,6 +10,8 @@ function atribuiBordaAleatoria() {
 
             elemento.style.border = `3px solid ${cor}`;
             elemento.style.position = 'relative';
+            elemento.style.padding = '10px'; // apenas para fim de melhor visualização
+
 
             const tagNome = document.createElement('span');
             tagNome.innerText = elemento.tagName.toLowerCase();
