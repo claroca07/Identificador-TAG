@@ -1,7 +1,15 @@
 function atribuiBordaAleatoria() {
     const elementos = document.querySelectorAll('body *:not(script):not(style)');
     const qtdElementos = elementos.length;
+
     const coresTag = {};
+
+    const voidElements = [
+        'area', 'base', 'br', 'col', 'embed',
+        'hr', 'img', 'input', 'link', 'meta',
+        'param', 'source', 'track', 'wbr'
+    ];
+    //Esses elementos acima são os elementos void, ou seja, não possuem conteúdo e não precisam de uma tag de fechamento. Optei deixa-los sem borda para evitar que a borda interfira na visualização do conteúdo, já que eles não possuem conteúdo interno.
 
     for (let i = 0; i < qtdElementos; i++) {
         const elemento = elementos[i];
@@ -13,13 +21,16 @@ function atribuiBordaAleatoria() {
         }
 
         const cor = coresTag[tag];
+        const isVoid = voidElements.includes(tag);
 
-        elemento.style.border = '2px solid ' + cor;
-        elemento.style.position = 'relative';
-        elemento.style.padding = '10px'; // apenas para fim de melhor visualização
+        if (!isVoid) {
+            elemento.style.border = '2px solid ' + cor;
+            elemento.style.position = 'relative';
+            elemento.style.padding = '10px';
+        }
 
         const tagNome = document.createElement('span');
-        tagNome.innerText = elemento.tagName.toLowerCase();
+        tagNome.innerText = tag;
 
         Object.assign(tagNome.style, {
             position: 'absolute',
@@ -34,8 +45,10 @@ function atribuiBordaAleatoria() {
             pointerEvents: 'none',
             lineHeight: '1'
         });
-
-        elemento.prepend(tagNome);
+        
+        if (!isVoid) {
+            elemento.prepend(tagNome);
+        }
     }
 }
 
